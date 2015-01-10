@@ -1,0 +1,22 @@
+
+
+@function bgColor ($color) {
+	@return desaturate(lighten($color, 46%), 10%);
+}
+
+$color-success: #62983d;
+$color-failure: #c00000;
+$color-pending: #cccccc;
+$color-running: #598fbf;
+
+$color-success-bg: bgColor($color-success);
+$color-failure-bg: bgColor($color-failure);
+$color-pending-bg: bgColor($color-pending);
+$color-running-bg: bgColor($color-running);
+
+
+$color-black: #000000;
+$color-red: #c00000;
+$color-green: #538135;
+$color-yellow: #ffd965;
+$color-orange: #ed7d31;

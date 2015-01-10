@@ -1,0 +1,104 @@
+.arrow {
+  @include clearfix;
+  position: relative;
+  font-size: 1.5em;
+  display: inline-block;
+  width: 2em;
+  vertical-align: bottom;
+  margin: 0;
+  > .text {
+    width: 2em;
+    line-height: 2em;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: white;
+    span {font-size: .8em; vertical-align: top;}
+  }
+  &.yellow >.text { color: black;}
+
+  &.down > .tri {
+    display: block;
+    width: 0px;
+    height: 0px;
+    border-left: 1em solid transparent;
+    border-right: 1em solid transparent;
+    border-top: 1em solid $color-green;
+  }
+  &.red.down > .tri { border-top-color: $color-red;}
+  &.yellow.down > .tri { border-top-color: $color-yellow;}
+
+  &.up > .tri {
+    display: block;
+    width: 0px;
+    height: 0px;
+    border-left: 1em solid transparent;
+    border-right: 1em solid transparent;
+    border-bottom: 1em solid $color-green;
+  }
+  &.red.up > .tri { border-bottom-color: $color-red;}
+  &.yellow.up > .tri { border-bottom-color: $color-yellow;}
+
+  &.left > .tri {
+    display: block;
+    float: left;
+    width: 0px;
+    height: 0px;
+    border-top: 1em solid transparent;
+    border-bottom: 1em solid transparent;
+    border-right: 1em solid $color-green;
+  }
+  &.red.left > .tri { border-right-color: $color-red;}
+  &.yellow.left > .tri { border-right-color: $color-yellow;}
+
+
+  &.right > .tri {
+    display: block;
+    float: left;
+    width: 0px;
+    height: 0px;
+    border-top: 1em solid transparent;
+    border-bottom: 1em solid transparent;
+    border-left: 1em solid $color-green;
+  }
+  &.red.right > .tri { border-left-color: $color-red;}
+  &.yellow.right > .tri { border-left-color: $color-yellow;}
+
+  &.down .bar, &.up .bar {
+    display: block;
+    width: 1em;
+    height: 1.41em;
+    margin: 0 .5em;
+    background: $color-green;
+    color: white;
+    text-align: center;
+    line-height: 1em;
+    span {
+      font-size: .9em;
+    }
+  }
+  &.red  {
+    &.down > .bar, &.up > .bar { background: $color-red;}
+  }
+
+  &.up > .bar {line-height: 1em; margin: -0.5em .5em 0; }
+  &.down > .bar {line-height: 2em; margin: 0 .5em -0.5em; }
+
+  &.left > .bar, &.right > .bar {
+    display: block;
+    float: left;
+    width: 1.41em;
+    height: 1em;
+    margin: .5em 0;
+    background: $color-yellow;
+    color: white;
+    text-align: center;
+    line-height: 1em;
+    span {
+      font-size: .9em;
+    }
+  }
+  &.right > .bar {line-height: 1em; margin: .5em -0.5em .5em 0; }
+  &.left > .bar {line-height: 1em; margin: .5em 0 .5em -0.5em; }
+}

@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for All files</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="prettify.css">
+
+    <style>
+        body, html {
+            margin:0; padding: 0;
+        }
+        body {
+            font-family: Helvetica Neue, Helvetica,Arial;
+            font-size: 10pt;
+        }
+        div.header, div.footer {
+            background: #eee;
+            padding: 1em;
+        }
+        div.header {
+            z-index: 100;
+            position: fixed;
+            top: 0;
+            border-bottom: 1px solid #666;
+            width: 100%;
+        }
+        div.footer {
+            border-top: 1px solid #666;
+        }
+        div.body {
+            margin-top: 10em;
+        }
+        div.meta {
+            font-size: 90%;
+            text-align: center;
+        }
+        h1, h2, h3 {
+            font-weight: normal;
+        }
+        h1 {
+            font-size: 12pt;
+        }
+        h2 {
+            font-size: 10pt;
+        }
+        pre {
+            font-family: Consolas, Menlo, Monaco, monospace;
+            margin: 0;
+            padding: 0;
+            line-height: 14px;
+            font-size: 14px;
+            -moz-tab-size: 2;
+            -o-tab-size:  2;
+            tab-size: 2;
+        }
+
+        div.path { font-size: 110%; }
+        div.path a:link, div.path a:visited { color: #000; }
+        table.coverage { border-collapse: collapse; margin:0; padding: 0 }
+
+        table.coverage td {
+            margin: 0;
+            padding: 0;
+            color: #111;
+            vertical-align: top;
+        }
+        table.coverage td.line-count {
+            width: 50px;
+            text-align: right;
+            padding-right: 5px;
+        }
+        table.coverage td.line-coverage {
+            color: #777 !important;
+            text-align: right;
+            border-left: 1px solid #666;
+            border-right: 1px solid #666;
+        }
+
+        table.coverage td.text {
+        }
+
+        table.coverage td span.cline-any {
+            display: inline-block;
+            padding: 0 5px;
+            width: 40px;
+        }
+        table.coverage td span.cline-neutral {
+            background: #eee;
+        }
+        table.coverage td span.cline-yes {
+            background: #b5d592;
+            color: #999;
+        }
+        table.coverage td span.cline-no {
+            background: #fc8c84;
+        }
+
+        .cstat-yes { color: #111; }
+        .cstat-no { background: #fc8c84; color: #111; }
+        .fstat-no { background: #ffc520; color: #111 !important; }
+        .cbranch-no { background:  yellow !important; color: #111; }
+
+        .cstat-skip { background: #ddd; color: #111; }
+        .fstat-skip { background: #ddd; color: #111 !important; }
+        .cbranch-skip { background: #ddd !important; color: #111; }
+
+        .missing-if-branch {
+            display: inline-block;
+            margin-right: 10px;
+            position: relative;
+            padding: 0 4px;
+            background: black;
+            color: yellow;
+        }
+
+        .skip-if-branch {
+            display: none;
+            margin-right: 10px;
+            position: relative;
+            padding: 0 4px;
+            background: #ccc;
+            color: white;
+        }
+
+        .missing-if-branch .typ, .skip-if-branch .typ {
+            color: inherit !important;
+        }
+
+        .entity, .metric { font-weight: bold; }
+        .metric { display: inline-block; border: 1px solid #333; padding: 0.3em; background: white; }
+        .metric small { font-size: 80%; font-weight: normal; color: #666; }
+
+        div.coverage-summary table { border-collapse: collapse; margin: 3em; font-size: 110%; }
+        div.coverage-summary td, div.coverage-summary table  th { margin: 0; padding: 0.25em 1em; border-top: 1px solid #666; border-bottom: 1px solid #666; }
+        div.coverage-summary th { text-align: left; border: 1px solid #666; background: #eee; font-weight: normal; }
+        div.coverage-summary th.file { border-right: none !important; }
+        div.coverage-summary th.pic { border-left: none !important; text-align: right; }
+        div.coverage-summary th.pct { border-right: none !important; }
+        div.coverage-summary th.abs { border-left: none !important; text-align: right; }
+        div.coverage-summary td.pct { text-align: right; border-left: 1px solid #666; }
+        div.coverage-summary td.abs { text-align: right; font-size: 90%; color: #444; border-right: 1px solid #666; }
+        div.coverage-summary td.file { text-align: right; border-left: 1px solid #666; white-space: nowrap;  }
+        div.coverage-summary td.pic { min-width: 120px !important;  }
+        div.coverage-summary a:link { text-decoration: none; color: #000; }
+        div.coverage-summary a:visited { text-decoration: none; color: #333; }
+        div.coverage-summary a:hover { text-decoration: underline; }
+        div.coverage-summary tfoot td { border-top: 1px solid #666; }
+
+        div.coverage-summary .yui3-datatable-sort-indicator, div.coverage-summary .dummy-sort-indicator {
+            height: 10px;
+            width: 7px;
+            display: inline-block;
+            margin-left: 0.5em;
+        }
+        div.coverage-summary .yui3-datatable-sort-indicator {
+            background: url("https://yui-s.yahooapis.com/3.6.0/build/datatable-sort/assets/skins/sam/sort-arrow-sprite.png") no-repeat scroll 0 0 transparent;
+        }
+        div.coverage-summary .yui3-datatable-sorted .yui3-datatable-sort-indicator {
+            background-position: 0 -20px;
+        }
+        div.coverage-summary .yui3-datatable-sorted-desc .yui3-datatable-sort-indicator {
+            background-position: 0 -10px;
+        }
+
+        .high { background: #b5d592 !important; }
+        .medium { background: #ffe87c !important; }
+        .low { background: #fc8c84 !important; }
+
+        span.cover-fill, span.cover-empty {
+            display:inline-block;
+            border:1px solid #444;
+            background: white;
+            height: 12px;
+        }
+        span.cover-fill {
+            background: #ccc;
+            border-right: 1px solid #444;
+        }
+        span.cover-empty {
+            background: white;
+            border-left: none;
+        }
+        span.cover-full {
+            border-right: none !important;
+        }
+        pre.prettyprint {
+            border: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        .com { color: #999 !important; }
+        .ignore-none { color: #999; font-weight: normal; }
+
+    </style>
+</head>
+<body>
+<div class="header low">
+    <h1>Code coverage report for <span class="entity">All files</span></h1>
+    <h2>
+        
+        Statements: <span class="metric">17.13% <small>(4721 / 27558)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Branches: <span class="metric">5.3% <small>(1378 / 25997)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Functions: <span class="metric">10.58% <small>(874 / 8262)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Lines: <span class="metric">17.25% <small>(2025 / 11738)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"></div>
+</div>
+<div class="body">
+<div class="coverage-summary">
+<table>
+<thead>
+<tr>
+   <th data-col="file" data-fmt="html" data-html="true" class="file">File</th>
+   <th data-col="pic" data-type="number" data-fmt="html" data-html="true" class="pic"></th>
+   <th data-col="statements" data-type="number" data-fmt="pct" class="pct">Statements</th>
+   <th data-col="statements_raw" data-type="number" data-fmt="html" class="abs"></th>
+   <th data-col="branches" data-type="number" data-fmt="pct" class="pct">Branches</th>
+   <th data-col="branches_raw" data-type="number" data-fmt="html" class="abs"></th>
+   <th data-col="functions" data-type="number" data-fmt="pct" class="pct">Functions</th>
+   <th data-col="functions_raw" data-type="number" data-fmt="html" class="abs"></th>
+   <th data-col="lines" data-type="number" data-fmt="pct" class="pct">Lines</th>
+   <th data-col="lines_raw" data-type="number" data-fmt="html" class="abs"></th>
+</tr>
+</thead>
+<tbody><tr>
+	<td class="file medium" data-value="app/"><a href="app/index.html">app/</a></td>
+	<td data-value="52.94" class="pic medium"><span class="cover-fill" style="width: 52px;"></span><span class="cover-empty" style="width:48px;"></span></td>
+	<td data-value="52.94" class="pct medium">52.94%</td>
+	<td data-value="17" class="abs medium">(9&nbsp;/&nbsp;17)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="10" class="abs low">(0&nbsp;/&nbsp;10)</td>
+	<td data-value="33.33" class="pct low">33.33%</td>
+	<td data-value="6" class="abs low">(2&nbsp;/&nbsp;6)</td>
+	<td data-value="56.25" class="pct medium">56.25%</td>
+	<td data-value="16" class="abs medium">(9&nbsp;/&nbsp;16)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="app/modules/directive/build-collapse/"><a href="app/modules/directive/build-collapse/index.html">app/modules/directive/build-collapse/</a></td>
+	<td data-value="16.67" class="pic low"><span class="cover-fill" style="width: 16px;"></span><span class="cover-empty" style="width:84px;"></span></td>
+	<td data-value="16.67" class="pct low">16.67%</td>
+	<td data-value="42" class="abs low">(7&nbsp;/&nbsp;42)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="12" class="abs low">(0&nbsp;/&nbsp;12)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="9" class="abs low">(0&nbsp;/&nbsp;9)</td>
+	<td data-value="16.67" class="pct low">16.67%</td>
+	<td data-value="42" class="abs low">(7&nbsp;/&nbsp;42)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="app/modules/directive/builder-view/"><a href="app/modules/directive/builder-view/index.html">app/modules/directive/builder-view/</a></td>
+	<td data-value="12.5" class="pic low"><span class="cover-fill" style="width: 12px;"></span><span class="cover-empty" style="width:88px;"></span></td>
+	<td data-value="12.5" class="pct low">12.5%</td>
+	<td data-value="16" class="abs low">(2&nbsp;/&nbsp;16)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="2" class="abs low">(0&nbsp;/&nbsp;2)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="6" class="abs low">(0&nbsp;/&nbsp;6)</td>
+	<td data-value="12.5" class="pct low">12.5%</td>
+	<td data-value="16" class="abs low">(2&nbsp;/&nbsp;16)</td>
+	</tr>
+
+<tr>
+	<td class="file high" data-value="app/modules/service/"><a href="app/modules/service/index.html">app/modules/service/</a></td>
+	<td data-value="87.5" class="pic high"><span class="cover-fill" style="width: 87px;"></span><span class="cover-empty" style="width:13px;"></span></td>
+	<td data-value="87.5" class="pct high">87.5%</td>
+	<td data-value="8" class="abs high">(7&nbsp;/&nbsp;8)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="0" class="abs high">(0&nbsp;/&nbsp;0)</td>
+	<td data-value="75" class="pct medium">75%</td>
+	<td data-value="4" class="abs medium">(3&nbsp;/&nbsp;4)</td>
+	<td data-value="87.5" class="pct high">87.5%</td>
+	<td data-value="8" class="abs high">(7&nbsp;/&nbsp;8)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="app/vendor/angular-animate/"><a href="app/vendor/angular-animate/index.html">app/vendor/angular-animate/</a></td>
+	<td data-value="7.89" class="pic low"><span class="cover-fill" style="width: 7px;"></span><span class="cover-empty" style="width:93px;"></span></td>
+	<td data-value="7.89" class="pct low">7.89%</td>
+	<td data-value="1090" class="abs low">(86&nbsp;/&nbsp;1090)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="700" class="abs low">(0&nbsp;/&nbsp;700)</td>
+	<td data-value="1.28" class="pct low">1.28%</td>
+	<td data-value="235" class="abs low">(3&nbsp;/&nbsp;235)</td>
+	<td data-value="8.7" class="pct low">8.7%</td>
+	<td data-value="667" class="abs low">(58&nbsp;/&nbsp;667)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="app/vendor/angular-bootstrap/"><a href="app/vendor/angular-bootstrap/index.html">app/vendor/angular-bootstrap/</a></td>
+	<td data-value="8.17" class="pic low"><span class="cover-fill" style="width: 8px;"></span><span class="cover-empty" style="width:92px;"></span></td>
+	<td data-value="8.17" class="pct low">8.17%</td>
+	<td data-value="2716" class="abs low">(222&nbsp;/&nbsp;2716)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="1965" class="abs low">(0&nbsp;/&nbsp;1965)</td>
+	<td data-value="0.18" class="pct low">0.18%</td>
+	<td data-value="1122" class="abs low">(2&nbsp;/&nbsp;1122)</td>
+	<td data-value="7.74" class="pct low">7.74%</td>
+	<td data-value="1369" class="abs low">(106&nbsp;/&nbsp;1369)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="app/vendor/angular-charts/dist/"><a href="app/vendor/angular-charts/dist/index.html">app/vendor/angular-charts/dist/</a></td>
+	<td data-value="13.03" class="pic low"><span class="cover-fill" style="width: 13px;"></span><span class="cover-empty" style="width:87px;"></span></td>
+	<td data-value="13.03" class="pct low">13.03%</td>
+	<td data-value="261" class="abs low">(34&nbsp;/&nbsp;261)</td>
+	<td data-value="0.96" class="pct low">0.96%</td>
+	<td data-value="104" class="abs low">(1&nbsp;/&nbsp;104)</td>
+	<td data-value="2.33" class="pct low">2.33%</td>
+	<td data-value="129" class="abs low">(3&nbsp;/&nbsp;129)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="1" class="abs high">(1&nbsp;/&nbsp;1)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="app/vendor/angular-cookies/"><a href="app/vendor/angular-cookies/index.html">app/vendor/angular-cookies/</a></td>
+	<td data-value="8.06" class="pic low"><span class="cover-fill" style="width: 8px;"></span><span class="cover-empty" style="width:92px;"></span></td>
+	<td data-value="8.06" class="pct low">8.06%</td>
+	<td data-value="62" class="abs low">(5&nbsp;/&nbsp;62)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="36" class="abs low">(0&nbsp;/&nbsp;36)</td>
+	<td data-value="12.5" class="pct low">12.5%</td>
+	<td data-value="16" class="abs low">(2&nbsp;/&nbsp;16)</td>
+	<td data-value="9.52" class="pct low">9.52%</td>
+	<td data-value="42" class="abs low">(4&nbsp;/&nbsp;42)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="app/vendor/angular-mocks/"><a href="app/vendor/angular-mocks/index.html">app/vendor/angular-mocks/</a></td>
+	<td data-value="28.4" class="pic low"><span class="cover-fill" style="width: 28px;"></span><span class="cover-empty" style="width:72px;"></span></td>
+	<td data-value="28.4" class="pct low">28.4%</td>
+	<td data-value="588" class="abs low">(167&nbsp;/&nbsp;588)</td>
+	<td data-value="9.88" class="pct low">9.88%</td>
+	<td data-value="253" class="abs low">(25&nbsp;/&nbsp;253)</td>
+	<td data-value="21.79" class="pct low">21.79%</td>
+	<td data-value="156" class="abs low">(34&nbsp;/&nbsp;156)</td>
+	<td data-value="29.93" class="pct low">29.93%</td>
+	<td data-value="558" class="abs low">(167&nbsp;/&nbsp;558)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="app/vendor/angular-resource/"><a href="app/vendor/angular-resource/index.html">app/vendor/angular-resource/</a></td>
+	<td data-value="8.88" class="pic low"><span class="cover-fill" style="width: 8px;"></span><span class="cover-empty" style="width:92px;"></span></td>
+	<td data-value="8.88" class="pct low">8.88%</td>
+	<td data-value="259" class="abs low">(23&nbsp;/&nbsp;259)</td>
+	<td data-value="0" class="pct low">0%</td>
+	<td data-value="216" class="abs low">(0&nbsp;/&nbsp;216)</td>
+	<td data-value="3.7" class="pct low">3.7%</td>
+	<td data-value="54" class="abs low">(2&nbsp;/&nbsp;54)</td>
+	<td data-value="10.6" class="pct low">10.6%</td>
+	<td data-value="151" class="abs low">(16&nbsp;/&nbsp;151)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="app/vendor/angular-ui-router/release/"><a href="app/vendor/angular-ui-router/release/index.html">app/vendor/angular-ui-router/release/</a></td>
+	<td data-value="15.82" class="pic low"><span class="cover-fill" style="width: 15px;"></span><span class="cover-empty" style="width:85px;"></span></td>
+	<td data-value="15.82" class="pct low">15.82%</td>
+	<td data-value="1985" class="abs low">(314&nbsp;/&nbsp;1985)</td>
+	<td data-value="3.21" class="pct low">3.21%</td>
+	<td data-value="1680" class="abs low">(54&nbsp;/&nbsp;1680)</td>
+	<td data-value="7.48" class="pct low">7.48%</td>
+	<td data-value="508" class="abs low">(38&nbsp;/&nbsp;508)</td>
+	<td data-value="13.22" class="pct low">13.22%</td>
+	<td data-value="1097" class="abs low">(145&nbsp;/&nbsp;1097)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="app/vendor/angular-ui-utils/"><a href="app/vendor/angular-ui-utils/index.html">app/vendor/angular-ui-utils/</a></td>
+	<td data-value="7.55" class="pic low"><span class="cover-fill" style="width: 7px;"></span><span class="cover-empty" style="width:93px;"></span></td>
+	<td data-value="7.55" class="pct low">7.55%</td>
+	<td data-value="1443" class="abs low">(109&nbsp;/&nbsp;1443)</td>
+	<td data-value="0.25" class="pct low">0.25%</td>
+	<td data-value="1181" class="abs low">(3&nbsp;/&nbsp;1181)</td>
+	<td data-value="0.74" class="pct low">0.74%</td>
+	<td data-value="404" class="abs low">(3&nbsp;/&nbsp;404)</td>
+	<td data-value="7.04" class="pct low">7.04%</td>
+	<td data-value="1008" class="abs low">(71&nbsp;/&nbsp;1008)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="app/vendor/angular/"><a href="app/vendor/angular/index.html">app/vendor/angular/</a></td>
+	<td data-value="15.43" class="pic low"><span class="cover-fill" style="width: 15px;"></span><span class="cover-empty" style="width:85px;"></span></td>
+	<td data-value="15.43" class="pct low">15.43%</td>
+	<td data-value="8826" class="abs low">(1362&nbsp;/&nbsp;8826)</td>
+	<td data-value="4.62" class="pct low">4.62%</td>
+	<td data-value="6558" class="abs low">(303&nbsp;/&nbsp;6558)</td>
+	<td data-value="11.05" class="pct low">11.05%</td>
+	<td data-value="1964" class="abs low">(217&nbsp;/&nbsp;1964)</td>
+	<td data-value="21.18" class="pct low">21.18%</td>
+	<td data-value="5242" class="abs low">(1110&nbsp;/&nbsp;5242)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="app/vendor/bootstrap/dist/js/"><a href="app/vendor/bootstrap/dist/js/index.html">app/vendor/bootstrap/dist/js/</a></td>
+	<td data-value="16.32" class="pic low"><span class="cover-fill" style="width: 16px;"></span><span class="cover-empty" style="width:84px;"></span></td>
+	<td data-value="16.32" class="pct low">16.32%</td>
+	<td data-value="380" class="abs low">(62&nbsp;/&nbsp;380)</td>
+	<td data-value="0.49" class="pct low">0.49%</td>
+	<td data-value="609" class="abs low">(3&nbsp;/&nbsp;609)</td>
+	<td data-value="10.18" class="pct low">10.18%</td>
+	<td data-value="167" class="abs low">(17&nbsp;/&nbsp;167)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="1" class="abs high">(1&nbsp;/&nbsp;1)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="app/vendor/d3/"><a href="app/vendor/d3/index.html">app/vendor/d3/</a></td>
+	<td data-value="20.75" class="pic low"><span class="cover-fill" style="width: 20px;"></span><span class="cover-empty" style="width:80px;"></span></td>
+	<td data-value="20.75" class="pct low">20.75%</td>
+	<td data-value="3846" class="abs low">(798&nbsp;/&nbsp;3846)</td>
+	<td data-value="1.56" class="pct low">1.56%</td>
+	<td data-value="3134" class="abs low">(49&nbsp;/&nbsp;3134)</td>
+	<td data-value="2.95" class="pct low">2.95%</td>
+	<td data-value="1490" class="abs low">(44&nbsp;/&nbsp;1490)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="5" class="abs high">(5&nbsp;/&nbsp;5)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="app/vendor/jquery/dist/"><a href="app/vendor/jquery/dist/index.html">app/vendor/jquery/dist/</a></td>
+	<td data-value="27.5" class="pic low"><span class="cover-fill" style="width: 27px;"></span><span class="cover-empty" style="width:73px;"></span></td>
+	<td data-value="27.5" class="pct low">27.5%</td>
+	<td data-value="1753" class="abs low">(482&nbsp;/&nbsp;1753)</td>
+	<td data-value="16.49" class="pct low">16.49%</td>
+	<td data-value="3553" class="abs low">(586&nbsp;/&nbsp;3553)</td>
+	<td data-value="21.59" class="pct low">21.59%</td>
+	<td data-value="593" class="abs low">(128&nbsp;/&nbsp;593)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="3" class="abs high">(3&nbsp;/&nbsp;3)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="app/vendor/jquery/src/sizzle/dist/"><a href="app/vendor/jquery/src/sizzle/dist/index.html">app/vendor/jquery/src/sizzle/dist/</a></td>
+	<td data-value="14.15" class="pic low"><span class="cover-fill" style="width: 14px;"></span><span class="cover-empty" style="width:86px;"></span></td>
+	<td data-value="14.15" class="pct low">14.15%</td>
+	<td data-value="410" class="abs low">(58&nbsp;/&nbsp;410)</td>
+	<td data-value="6.1" class="pct low">6.1%</td>
+	<td data-value="787" class="abs low">(48&nbsp;/&nbsp;787)</td>
+	<td data-value="17.65" class="pct low">17.65%</td>
+	<td data-value="119" class="abs low">(21&nbsp;/&nbsp;119)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="1" class="abs high">(1&nbsp;/&nbsp;1)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="app/vendor/moment/"><a href="app/vendor/moment/index.html">app/vendor/moment/</a></td>
+	<td data-value="17.26" class="pic low"><span class="cover-fill" style="width: 17px;"></span><span class="cover-empty" style="width:83px;"></span></td>
+	<td data-value="17.26" class="pct low">17.26%</td>
+	<td data-value="898" class="abs low">(155&nbsp;/&nbsp;898)</td>
+	<td data-value="3.58" class="pct low">3.58%</td>
+	<td data-value="755" class="abs low">(27&nbsp;/&nbsp;755)</td>
+	<td data-value="8.42" class="pct low">8.42%</td>
+	<td data-value="202" class="abs low">(17&nbsp;/&nbsp;202)</td>
+	<td data-value="17.32" class="pct low">17.32%</td>
+	<td data-value="895" class="abs low">(155&nbsp;/&nbsp;895)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="app/vendor/moment/min/"><a href="app/vendor/moment/min/index.html">app/vendor/moment/min/</a></td>
+	<td data-value="32.77" class="pic low"><span class="cover-fill" style="width: 32px;"></span><span class="cover-empty" style="width:68px;"></span></td>
+	<td data-value="32.77" class="pct low">32.77%</td>
+	<td data-value="1877" class="abs low">(615&nbsp;/&nbsp;1877)</td>
+	<td data-value="7.11" class="pct low">7.11%</td>
+	<td data-value="3570" class="abs low">(254&nbsp;/&nbsp;3570)</td>
+	<td data-value="39.69" class="pct low">39.69%</td>
+	<td data-value="776" class="abs low">(308&nbsp;/&nbsp;776)</td>
+	<td data-value="100" class="pct high">100%</td>
+	<td data-value="8" class="abs high">(8&nbsp;/&nbsp;8)</td>
+	</tr>
+
+<tr>
+	<td class="file low" data-value="app/vendor/underscore/"><a href="app/vendor/underscore/index.html">app/vendor/underscore/</a></td>
+	<td data-value="18.87" class="pic low"><span class="cover-fill" style="width: 18px;"></span><span class="cover-empty" style="width:82px;"></span></td>
+	<td data-value="18.87" class="pct low">18.87%</td>
+	<td data-value="1081" class="abs low">(204&nbsp;/&nbsp;1081)</td>
+	<td data-value="2.87" class="pct low">2.87%</td>
+	<td data-value="872" class="abs low">(25&nbsp;/&nbsp;872)</td>
+	<td data-value="9.93" class="pct low">9.93%</td>
+	<td data-value="302" class="abs low">(30&nbsp;/&nbsp;302)</td>
+	<td data-value="24.51" class="pct low">24.51%</td>
+	<td data-value="608" class="abs low">(149&nbsp;/&nbsp;608)</td>
+	</tr>
+
+</tbody>
+</table>
+</div>
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jan 09 2015 11:16:58 GMT+0600 (NOVT)</div>
+</div>
+
+<script src="prettify.js"></script>
+
+<script src="https://yui-s.yahooapis.com/3.6.0/build/yui/yui-min.js"></script>
+<script>
+
+    YUI().use('datatable', function (Y) {
+
+        var formatters = {
+          pct: function (o) {
+              o.className += o.record.get('classes')[o.column.key];
+              try {
+                  return o.value.toFixed(2) + '%';
+              } catch (ex) { return o.value + '%'; }
+          },
+          html: function (o) {
+              o.className += o.record.get('classes')[o.column.key];
+              return o.record.get(o.column.key + '_html');
+          }
+        },
+          defaultFormatter = function (o) {
+              o.className += o.record.get('classes')[o.column.key];
+              return o.value;
+          };
+
+        function getColumns(theadNode) {
+            var colNodes = theadNode.all('tr th'),
+                cols = [],
+                col;
+            colNodes.each(function (colNode) {
+                col = {
+                    key: colNode.getAttribute('data-col'),
+                    label: colNode.get('innerHTML') || ' ',
+                    sortable: !colNode.getAttribute('data-nosort'),
+                    className: colNode.getAttribute('class'),
+                    type: colNode.getAttribute('data-type'),
+                    allowHTML: colNode.getAttribute('data-html') === 'true' || colNode.getAttribute('data-fmt') === 'html'
+                };
+                col.formatter = formatters[colNode.getAttribute('data-fmt')] || defaultFormatter;
+                cols.push(col);
+            });
+            return cols;
+        }
+
+        function getRowData(trNode, cols) {
+            var tdNodes = trNode.all('td'),
+                    i,
+                    row = { classes: {} },
+                    node,
+                    name;
+            for (i = 0; i < cols.length; i += 1) {
+                name = cols[i].key;
+                node = tdNodes.item(i);
+                row[name] = node.getAttribute('data-value') || node.get('innerHTML');
+                row[name + '_html'] = node.get('innerHTML');
+                row.classes[name] = node.getAttribute('class');
+                //Y.log('Name: ' + name + '; Value: ' + row[name]);
+                if (cols[i].type === 'number') { row[name] = row[name] * 1; }
+            }
+            //Y.log(row);
+            return row;
+        }
+
+        function getData(tbodyNode, cols) {
+            var data = [];
+            tbodyNode.all('tr').each(function (trNode) {
+                data.push(getRowData(trNode, cols));
+            });
+            return data;
+        }
+
+        function replaceTable(node) {
+            if (!node) { return; }
+            var cols = getColumns(node.one('thead')),
+                data = getData(node.one('tbody'), cols),
+                table,
+                parent = node.get('parentNode');
+
+            table = new Y.DataTable({
+                columns: cols,
+                data: data,
+                sortBy: 'file'
+            });
+            parent.set('innerHTML', '');
+            table.render(parent);
+        }
+
+        Y.on('domready', function () {
+            replaceTable(Y.one('div.coverage-summary table'));
+            if (typeof prettyPrint === 'function') {
+                prettyPrint();
+            }
+        });
+    });
+</script>
+</body>
+</html>

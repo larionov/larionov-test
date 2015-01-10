@@ -1,0 +1,297 @@
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+@mixin box-shadow($left:0, $top:2px, $blur:2px, $color:#000, $inset:"") {
+      -webkit-box-shadow:$left $top $blur $color #{$inset};
+      -moz-box-shadow:$left $top $blur $color #{$inset};
+      box-shadow:$left $top $blur $color #{$inset};
+}
+
+.builder-view {
+	font-size: 20px;
+}
+.table-head, .table-row {
+	&:after {
+		display: table;
+		content: " ";
+	}
+
+	.cell {
+		text-align: center;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		float: left;
+
+		&.name {width: 15%; text-align: left;}
+		&.owner {width: 15%; text-align: left;}
+		&.started {width: 15%;}
+		&.state {width: 11%;}
+		&.metrics {width: 11%;}
+		&.build {width: 11%;}
+		&.unittest {width: 11%;}
+		&.functest {width: 11%;}
+	}
+}
+
+.table-head {
+	padding: .2em .4em;
+	border-bottom: 1px solid transparent;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+	.cell {font-size: 1em; font-weight: bold;}
+}
+
+
+
+
+
+.table-row {
+	border: 2px solid gray;
+	margin: 0 0 .4em 0;
+	.cell {
+		white-space: nowrap;
+		padding: 0 .4em;
+		.progress {
+			height: 1em;
+			margin-bottom: 0;
+		}
+	}
+	.btn  {border-radius: 0;}
+	div.caption {
+		white-space: nowrap;
+		cursor: pointer;
+		display: block;
+		padding: .2em 0em;
+		.cell {vertical-align: middle; line-height: 2em;}
+		[class^="icon-"], [class*=" icon-"] {
+			font-size: 2em;
+			vertical-align: middle;
+		}
+		&.open, &:hover {
+			.cell.name > span {text-decoration: underline; color: #428bca;}
+		}
+
+	}
+
+	&.state-pending {
+		border-color: $color-pending;
+		background: lighten($color-pending, 48%);
+		background: linear-gradient(45deg, $color-pending-bg, #fff);
+		color: $color-pending;
+		.icon {color: $color-pending};
+		div.caption {cursor: default;}
+		div.caption.open, div.caption:hover {
+			.cell.name > span {text-decoration: none; color: inherit;}
+		}
+	}
+	&.state-running {
+		border-color: $color-running;
+		background: lighten($color-running, 48%);
+		background: linear-gradient(45deg, $color-running-bg, #fff);
+		color: $color-running;
+		.icon {color: $color-running};
+	}
+	&.state-failure {
+		border-color: $color-failure;
+		background: lighten($color-failure, 48%);
+		background: linear-gradient(45deg, $color-failure-bg, #fff);
+		color: $color-failure;
+		.icon {color: $color-failure};
+	}
+	&.state-success {
+		border-color: $color-success;
+		background: lighten($color-success, 48%);
+		background: linear-gradient(45deg, $color-success-bg, #fff);
+		color: $color-success;
+		.icon {color: $color-success};
+	}
+
+
+}
+
+.table-row .stats {
+	@include clearfix;
+	.chart {
+		width: 100%;
+		height: 6em;
+	}
+	.panel {
+		cursor: pointer;
+		display: inline-block;
+		margin: 1em 0em 1em 1em;
+		width: 13em;
+		height: 11em;
+		border: .2em solid $color-green;
+		border-radius: 0;
+		vertical-align: top;
+		padding: .5em .3em;
+		@include box-shadow(.2em, .2em, .5em, rgba(0, 0, 0, .25));
+		h1 {
+			font-size: 1em;
+			font-weight: bold;
+			margin: 0 0 .3em 0;
+			padding: 0;
+		}
+		h2 {
+			padding: 0;
+			margin: .2em 0 .4em 0;
+			font-size: .9em;
+			font-weight: normal;
+			color: $color-black;
+			text-align:center;
+		}
+
+		&.fail {
+			@include box-shadow(0,0,0);
+			border-color: $color-red;
+		}
+	}
+	.panel.build  {
+		.panel-col {color: $color-running;}
+		h2 {
+			color: inherit;
+		}
+		> h2 {
+			color: $color-black;
+			margin-top: 2em;
+		}
+	}
+
+	.panel.results {
+		border: 0px;
+		float: right;
+		text-align: center;
+		margin-right: 1em;
+		background: transparent;
+		@include box-shadow(0,0,0);
+		h1 {
+			text-align: center;
+			display: block;
+			&:first-child {
+				margin-bottom: .3em;
+				color: black;
+			}
+			&.large {
+				font-size: 2em;
+			}
+			span {
+				font-size: .5em;
+				display: block;
+			}
+		}
+	}
+	.panel.unittest, .panel.functest {
+		.centered {
+			  position: absolute;
+			  height: 2em;
+			  left: 0;
+			  right: 0;
+			  top: 0;
+			  bottom: 0;
+			  width: 100%;
+			  height: 100%;
+			  text-align: center;
+
+			h1 {
+				font-size: 1.2em;
+				margin: .1em 0 0 0;
+				padding: 0;
+				&.success {color: darken($color-green, 20%) }
+				&.fail {color: desaturate(darken($color-orange, 20%), 20%) }
+			}
+			span {
+				color: $color-black;
+				display: block;
+				font-size: .6em;
+				line-height: .6em;
+			}
+		}
+	}
+
+	.panel-col {
+		width: 50%;
+		&.col60 {width: 60%;min-height: 6em;}
+		&.col40 {width: 40%;}
+
+		display: block;
+		float: left;
+		text-align: center;
+		h2 {
+			padding: 0;
+			margin: .2em 0 .4em 0;
+			font-size: .9em;
+			font-weight: normal;
+			color: $color-black;
+		}
+		i.large {
+			font-size: 3em;
+		}
+		&.chart-total {
+			text-align: center;
+			margin-top: 2em;
+			h1	{font-size: 2em; margin: 0; padding: 0;}
+			&.success h1 {color: lighten($color-green, 20%) }
+			&.fail h1 {color: desaturate(lighten($color-orange, 0%), 20%) }
+			span {
+				display: block;
+				color: $color-black;
+				font-size: .6em;
+			}
+		}
+	}
+	.panel-row {
+		@include clearfix;
+		position: relative;
+	}
+}
+
+.showEditor {padding-right: 400px;}
+
+.table-row.ng-enter, .table-row.ng-move {
+	-webkit-transition:0.5s linear all;
+	-moz-transition:0.5s linear all;
+	-o-transition:0.5s linear all;
+	transition:0.5s linear all;
+	opacity:0;
+}
+
+.table-row.ng-enter.ng-enter-active,
+.table-row.ng-move.ng-move-active {
+	opacity:1;
+}
+
+.table-row.ng-leave {
+	-webkit-animation:0.5s my_animation;
+	-moz-animation:0.5s my_animation;
+	-o-animation:0.5s my_animation;
+	animation:0.5s my_animation;
+}
+
+@keyframes my_animation {
+	from { opacity:1; }
+	to { opacity:0; }
+}
+
+/*
+ Unfortunately each browser vendor requires
+ its own definition of keyframe animation code...
+*/
+@-webkit-keyframes my_animation {
+	from { opacity:1; }
+	to { opacity:0; }
+}
+
+@-moz-keyframes my_animation {
+	from { opacity:1; }
+	to { opacity:0; }
+}
+
+@-o-keyframes my_animation {
+	from { opacity:1; }
+	to { opacity:0; }
+}

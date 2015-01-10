@@ -1,0 +1,177 @@
+<div ng-class="{showEditor: showEditor}">
+	<div class="table-head clearfix">
+		<div class="cell name">Changelist / Build</div>
+		<div class="cell owner">Owner</div>
+		<div class="cell started">Time Started</div>
+		<div class="cell state">State</div>
+		<div class="cell metrics">Metrics</div>
+		<div class="cell build">Build</div>
+		<div class="cell unittest">Unit Test</div>
+		<div class="cell functest">Func Test</div>
+	</div>
+	<div class="table-row clearfix" ng-class="'state-' + item._itemStatus" ng-repeat="item in data track by item.id">
+		<div class="caption clearfix" ng-click="item._itemStatus == 'pending' || open(item.id)" ng-class="{open: status.openedId == item.id}">
+
+			<div class="cell name"><i class="icon-firewall icon"></i> <span>{{item.name}}</span></div>
+			<div class="cell owner">{{item.owner || "&nbsp;"}}</div>
+			<div class="cell started">{{item.started || "&nbsp;"}}</div>
+			<div class="cell state">{{item.state | capitalize}}</div>
+			<div class="cell metrics" ng-show="status.openedId != item.id">
+				<build-progressbar max="100" value="item.result.failure_step == 'metrics' ? 0 : item.metrics.total" ng-class="{failure: item.result && !item.result.success && item.result.failure_step == 'metrics', pending: !item.metrics}"></build-progressbar>
+			</div>
+			<div class="cell build" ng-show="status.openedId != item.id">
+				<build-progressbar max="100" value="item.result.failure_step == 'build' ? 0 : item.build.total" ng-class="{failure: item.result && !item.result.success && item.result.failure_step == 'build', pending: !item.build}"></build-progressbar>
+			</div>
+			<div class="cell unittest" ng-show="status.openedId != item.id">
+				<build-progressbar max="100" value="item.result.failure_step == 'unittest' ? 0 : item.unittest.total" ng-class="{failure: item.result && !item.result.success && item.result.failure_step == 'unittest', pending: !item.unittest}"></build-progressbar>
+			</div>
+			<div class="cell functest" ng-show="status.openedId != item.id">
+				<build-progressbar max="100" value="item.result.failure_step == 'functest' ? 0 : item.functest.total" ng-class="{failure: item.result && !item.result.success && item.result.failure_step == 'functest', pending: !item.functest}"></build-progressbar>
+			</div>
+		</div>
+		<div class="stats panel-collapse" collapse="status.openedId != item.id" ng-class="{inactive: item._itemStatus == 'pending'}">
+			<div ng-init="id = item.id">
+				<div ng-switch="item.type+(item.result.success?'_true':'_false')"  ng-show="item.result">
+					<div class="panel results" ng-switch-when="firewall_true">
+						<h1>Result</h1>
+						<h1 class="large">
+							<span>{{item.result.description}}</span>
+							{{item.result.message}}
+						</h1>
+						<button type="button" class="btn btn-primary">
+							<i class="glyphicon glyphicon-search"></i>
+					        Merged Build
+					    </button>
+					</div>
+					<div class="panel results" ng-switch-when="firewall_false">
+						<h1>Result</h1>
+						<h1 class="large">
+							<span>{{item.result.description}}</span>
+							{{item.result.message}}
+						</h1>
+						<button type="button" class="btn btn-primary"> Find issues </button>
+					</div>
+					<div class="panel results" ng-switch-when="build_true">
+						<h1>Result</h1>
+						<h1 class="large">
+							{{item.result.message}}
+						</h1>
+						<button type="button" class="btn btn-primary" style="margin-right: 2em; margin-bottom: .5em;">
+					        Deploy
+					    </button> to:<br>
+					    <select>
+					    	<option>Production</option>
+					    	<option>Development</option>
+					    	<option>Testing</option>
+					    </select>
+					</div>
+					<div class="panel results" ng-switch-when="build_false">
+						<h1>Result</h1>
+						<h1 class="large">
+							{{item.result.message}}
+							<span>{{item.result.description}}</span>
+						</h1>
+					</div>
+				</div>
+				<div class="panel metrics" ng-show="item.metrics" ng-click="openModal('Metrics')" ng-class="{fail: item.result.failure_step == 'metrics'}">
+					<h1>Metrics</h1>
+					<div>
+						<div class='panel-row'>
+							<div class='panel-col'>
+								<build-arrow arrow-type="vert" value="item.metrics.test"></build-arrow>
+
+								<h2>Test</h2>
+							</div>
+							<div class='panel-col'>
+								<build-arrow arrow-type="vert" value="item.metrics.maintainability"></build-arrow>
+								<h2>Maintainability</h2>
+							</div>
+						</div>
+						<div class='panel-row'>
+							<div class='panel-col'>
+								<build-arrow arrow-type="hor" value="item.metrics.security"></build-arrow>
+								<h2>Security</h2>
+							</div>
+							<div class='panel-col'>
+								<build-arrow arrow-type="hor" value="item.metrics.worksmanship"></build-arrow>
+								<h2>Worksmanship</h2>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel build" ng-show="item.build" ng-click="openModal('Build')" ng-class="{fail: item.result.failure_step == 'build'}">
+					<h1>Build</h1>
+
+					<div class='panel-row'>
+						<div class='panel-col' ng-show="item.build.debug">
+							<i class="icon-laptop large"></i>
+							<h2>Debug</h2>
+						</div>
+						<div class='panel-col' ng-show="item.build.release">
+							<i class="icon-laptop large"></i>
+							<h2>Release</h2>
+						</div>
+					</div>
+					<h2>10:46am - 4/17/2014</h2>
+				</div>
+				<div class="panel unittest" ng-show="item.unittest" ng-click="openModal('Unit Test')" ng-class="{fail: item.result.failure_step == 'unittest'}">
+					<h1>Unit Test</h1>
+					<div class='panel-row'>
+						<div class='panel-col col60'>
+							<div
+								ng-if="status.openedId == item.id"
+								data-ac-chart="'pie'"
+								data-ac-data="item._chartUnitData"
+								data-ac-config="chartConfig"
+								class="chart"
+							> </div>
+						</div>
+						<div class='panel-col col40 chart-total' ng-class="{success: item.unittest.success, fail: !item.unittest.success}">
+							<h1>{{item._chartUnitPercent}}%</h1>
+							<span>tests passed</span>
+						</div>
+					</div>
+					<div class='panel-row'>
+						<build-progressbar max="100" value="66"><div class='centered'><h1 ng-class="{success: item.unittest.success, fail: !item.unittest.success}">66%</h1><span>code covered</span></div></build-progressbar>
+					</div>
+				</div>
+				<div class="panel functest" ng-show="item.functest" ng-click="openModal('Functional Test')" ng-class="{fail: item.result.failure_step == 'functest'}">
+					<h1>Functional Test</h1>
+					<div class='panel-row'>
+						<div class='panel-col col60'>
+							<div
+								ng-if="status.openedId == item.id"
+								data-ac-chart="'pie'"
+								data-ac-data="item._chartFuncData"
+								data-ac-config="chartConfig"
+								class="chart"
+							> </div>
+						</div>
+						<div class='panel-col col40 chart-total' ng-class="{success: item.functest.success, fail: !item.functest.success}">
+							<h1>{{item._chartFuncPercent}}%</h1>
+							<span>tests passed</span>
+						</div>
+					</div>
+					<div class='panel-row'>
+						<build-progressbar max="100" value="66"><div class='centered'><h1 ng-class="{success: item.unittestfunctest.success, fail: !item.functest.success}">66%</h1><span>code covered</span></div></build-progressbar>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/ng-template" id="myModalContent.html">
+	    <div class="modal-header">
+	        <h3 class="modal-title">{{templateData.title}}</h3>
+	    </div>
+	    <div class="modal-body">
+	    		This is blank modal
+	    </div>
+	    <div class="modal-footer">
+	        <button class="btn btn-primary" ng-click="ok()">OK</button>
+	        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+	    </div>
+	</script>
+	<div class="btn btn-primary" style="margin: .4em; float: right;" btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0" ng-model="showEditor">Show/Hide Editor</div>
+	<div class="btn btn-primary" style="margin: .4em; float: right;" ng-click="updateData()">Update data</div>
+	<textarea style="font-size: 12px; font-family: monospace; width: 460px; height: 100%; top: 0; bottom: 0;  right: 0; position: absolute;" ng-model="dataEditor" ng-show="showEditor"></textarea>
+</div>
