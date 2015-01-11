@@ -8,7 +8,7 @@ angular.module('larionovTest').controller('ModalInstanceCtrl', ['$scope', '$moda
 	};
 }]);
 
-angular.module('larionovTest').directive('builderView', ['builderData',  '$modal', function(builderData, $modal) {
+angular.module('larionovTest').directive('builderView', ['builderData',  '$modal', '$http', function(builderData, $modal, $http) {
 	return {
 		restrict: 'E',
 		replace: true,
@@ -21,16 +21,7 @@ angular.module('larionovTest').directive('builderView', ['builderData',  '$modal
 
 			scope.showEditor = false;
 			scope.templateData = {};
-			builderData.on('update', function (event, data) {
-				scope.data = data;
-				if (!data) {return;}
 
-				for (var i = 0;  i < scope.data.length; i++) {
-					scope.initRow(scope.data[i]);
-				}
-			});
-
-			scope.dataEditor = angular.toJson(builderData.getData(), true);
 			scope.status = {openedId: null};
 
 			/* expand row */
@@ -53,9 +44,18 @@ angular.module('larionovTest').directive('builderView', ['builderData',  '$modal
 				});
 			};
 
-			scope.updateData = function () {
-				builderData.setData(angular.fromJson(scope.dataEditor));
+			scope.onDataUpdated = function () {
+				$http.get('/tasks/list').success(function (data) {
+					scope.data = data;
+					scope.dataEditor = angular.toJson(scope.data, true);
+				});
 			};
+
+			scope.updateData = function () {
+				$http.post('/tasks/list', angular.fromJson(scope.dataEditor));
+				scope.onDataUpdated();
+			};
+			scope.onDataUpdated();
 
 			scope.chartConfig = {
 				colors: ['#ed7d31', '#538135'],
@@ -72,22 +72,32 @@ angular.module('larionovTest').directive('builderView', ['builderData',  '$modal
 				innerRadius: 0, // applicable on pieCharts, can be a percentage like '50%'
 				lineLegend: 'lineEnd' // can be also 'traditional'
 			};
+		}
+	};
+}]);
 
-			scope.initRow = function (item) {
-				item._itemStatus = item.state;
+
+
+angular.module('larionovTest').directive('tableRow', ['$modal', '$resource', function($modal, $resource) {
+	return {
+		restrict: 'C',
+		scope: true,
+		link: function(scope, element, attrs, fn) {
+			scope.$watch('item', function (item) {
+				scope.itemStatus = item.state;
 				if (item.type === "firewall") {
-					if (item.state === "accepted") {item._itemStatus = "success";}
-					if (item.state === "rejected") {item._itemStatus = "failure";}
+					if (item.state === "accepted") {scope.itemStatus = "success";}
+					if (item.state === "rejected") {scope.itemStatus = "failure";}
 				}
 
 				if (item.type === "build") {
-					if (item.state === "complete") {item._itemStatus = "success";}
-					if (item.state === "failed") {item._itemStatus = "failure";}
+					if (item.state === "complete") {scope.itemStatus = "success";}
+					if (item.state === "failed") {scope.itemStatus = "failure";}
 				}
 
 				if (item.unittest) {
-					item._chartUnitPercent = parseInt(100 * item.unittest.fail / (item.unittest.pass + item.unittest.fail));
-					item._chartUnitData = {
+					scope.chartUnitPercent = parseInt(100 * item.unittest.fail / (item.unittest.pass + item.unittest.fail));
+					scope.chartUnitData = {
 						"series": ["Tests"],
 						"data": [
 							{
@@ -103,8 +113,8 @@ angular.module('larionovTest').directive('builderView', ['builderData',  '$modal
 				}
 
 				if (item.functest) {
-					item._chartFuncPercent = parseInt(100 * item.functest.fail / (item.functest.pass + item.functest.fail));
-					item._chartFuncData = {
+					scope.chartFuncPercent = parseInt(100 * item.functest.fail / (item.functest.pass + item.functest.fail));
+					scope.chartFuncData = {
 						"series": ["Tests"],
 						"data": [
 							{
@@ -118,11 +128,7 @@ angular.module('larionovTest').directive('builderView', ['builderData',  '$modal
 						]
 					};
 				}
-			};
-
-			scope.updateData();
-
-
+			});
 		}
 	};
 }]);

@@ -1,21 +1,15 @@
-angular.module('larionovTest', ['ui.bootstrap', 'ui.bootstrap.modal', 'ui.utils','ui.router','ngAnimate', 'angularCharts'/*templates_holder*/]);
+angular.module('larionovTest', ['ui.bootstrap', 'ui.bootstrap.modal', 'ui.utils','ui.router','ngAnimate', 'angularCharts', 'ngMockE2E', 'ngResource' /*templates_holder*/]);
 
 angular.module('larionovTest').config(function($stateProvider, $urlRouterProvider, $locationProvider) {
-    $locationProvider.html5Mode({
-      enabled: true,
-      requireBase: false
-    });
 
-    /* Add New States Above */
-    $urlRouterProvider.otherwise('/home');
 
 });
-angular.module('larionovTest').run(function($rootScope,$state,$stateParams) {
+angular.module('larionovTest').run(['$rootScope', '$state', '$stateParams', '$httpBackend', '$resource', function($rootScope, $state, $stateParams, $httpBackend, $resource) {
 
-    $rootScope.$state=$state;
-    $rootScope.$stateParams=$stateParams;
+    $rootScope.$state = $state;
+    $rootScope.$stateParams = $stateParams;
 
-    $rootScope.safeApply = function(fn) {
+    $rootScope.safeApply = function (fn) {
         var phase = $rootScope.$$phase;
         if (phase === '$apply' || phase === '$digest') {
             if (fn && (typeof(fn) === 'function')) {
@@ -25,7 +19,13 @@ angular.module('larionovTest').run(function($rootScope,$state,$stateParams) {
             this.$apply(fn);
         }
     };
-});
+
+
+    $httpBackend.whenGET(/^\/modules\//).passThrough();
+    $httpBackend.whenGET(/^modules\//).passThrough();
+    $httpBackend.whenGET(/^assets\//).passThrough();
+    $httpBackend.whenGET(/^listTasks\//).passThrough();
+}]);
 
 angular.module('larionovTest').filter('capitalize', function() {
     return function(input, all) {

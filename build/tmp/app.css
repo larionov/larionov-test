@@ -1,0 +1,422 @@
+/* Required for Angular UI Bootstrap */
+.nav, .pagination, .carousel, .panel-title a {
+  cursor: pointer; }
+
+/* Component SCSS */
+.builder-view {
+  font-size: 20px; }
+
+.table-head:after, .table-row:after {
+  display: table;
+  content: " "; }
+.table-head .cell, .table-row .cell {
+  text-align: center;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  float: left; }
+  .table-head .cell.name, .table-row .cell.name {
+    width: 15%;
+    text-align: left; }
+  .table-head .cell.owner, .table-row .cell.owner {
+    width: 15%;
+    text-align: left; }
+  .table-head .cell.started, .table-row .cell.started {
+    width: 15%; }
+  .table-head .cell.state, .table-row .cell.state {
+    width: 11%; }
+  .table-head .cell.metrics, .table-row .cell.metrics {
+    width: 11%; }
+  .table-head .cell.build, .table-row .cell.build {
+    width: 11%; }
+  .table-head .cell.unittest, .table-row .cell.unittest {
+    width: 11%; }
+  .table-head .cell.functest, .table-row .cell.functest {
+    width: 11%; }
+
+.table-head {
+  padding: .2em .4em;
+  border-bottom: 1px solid transparent;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px; }
+  .table-head .cell {
+    font-size: 1em;
+    font-weight: bold; }
+
+.table-row {
+  border: 2px solid gray;
+  margin: 0 0 .4em 0; }
+  .table-row .cell {
+    white-space: nowrap;
+    padding: 0 .4em; }
+    .table-row .cell .progress {
+      height: 1em;
+      margin-bottom: 0; }
+  .table-row .btn {
+    border-radius: 0; }
+  .table-row div.caption {
+    white-space: nowrap;
+    cursor: pointer;
+    display: block;
+    padding: .2em 0em; }
+    .table-row div.caption .cell {
+      vertical-align: middle;
+      line-height: 2em; }
+    .table-row div.caption [class^="icon-"], .table-row div.caption [class*=" icon-"] {
+      font-size: 2em;
+      vertical-align: middle; }
+    .table-row div.caption.open .cell.name > span, .table-row div.caption:hover .cell.name > span {
+      text-decoration: underline;
+      color: #428bca; }
+  .table-row.state-pending {
+    border-color: #cccccc;
+    background: white;
+    background: linear-gradient(45deg, white, white);
+    color: #cccccc; }
+    .table-row.state-pending .icon {
+      color: #cccccc; }
+    .table-row.state-pending div.caption {
+      cursor: default; }
+    .table-row.state-pending div.caption.open .cell.name > span, .table-row.state-pending div.caption:hover .cell.name > span {
+      text-decoration: none;
+      color: inherit; }
+  .table-row.state-running {
+    border-color: #598fbf;
+    background: white;
+    background: linear-gradient(45deg, white, white);
+    color: #598fbf; }
+    .table-row.state-running .icon {
+      color: #598fbf; }
+  .table-row.state-failure {
+    border-color: #c00000;
+    background: #ffb6b6;
+    background: linear-gradient(45deg, #fbb0b0, white);
+    color: #c00000; }
+    .table-row.state-failure .icon {
+      color: #c00000; }
+  .table-row.state-success {
+    border-color: #62983d;
+    background: #e3f0da;
+    background: linear-gradient(45deg, #deead6, white);
+    color: #62983d; }
+    .table-row.state-success .icon {
+      color: #62983d; }
+
+.table-row .stats:after {
+  content: "";
+  display: table;
+  clear: both; }
+.table-row .stats .chart {
+  width: 100%;
+  height: 6em; }
+.table-row .stats .panel {
+  cursor: pointer;
+  display: inline-block;
+  margin: 1em 0em 1em 1em;
+  width: 13em;
+  height: 11em;
+  border: 0.2em solid #538135;
+  border-radius: 0;
+  vertical-align: top;
+  padding: .5em .3em;
+  -webkit-box-shadow: 0.2em 0.2em 0.5em rgba(0, 0, 0, 0.25) ;
+  -moz-box-shadow: 0.2em 0.2em 0.5em rgba(0, 0, 0, 0.25) ;
+  box-shadow: 0.2em 0.2em 0.5em rgba(0, 0, 0, 0.25) ; }
+  .table-row .stats .panel h1 {
+    font-size: 1em;
+    font-weight: bold;
+    margin: 0 0 .3em 0;
+    padding: 0; }
+  .table-row .stats .panel h2 {
+    padding: 0;
+    margin: .2em 0 .4em 0;
+    font-size: .9em;
+    font-weight: normal;
+    color: black;
+    text-align: center; }
+  .table-row .stats .panel.fail {
+    -webkit-box-shadow: 0 0 0 black ;
+    -moz-box-shadow: 0 0 0 black ;
+    box-shadow: 0 0 0 black ;
+    border-color: #c00000; }
+.table-row .stats .panel.build .panel-col {
+  color: #598fbf; }
+.table-row .stats .panel.build h2 {
+  color: inherit; }
+.table-row .stats .panel.build > h2 {
+  color: black;
+  margin-top: 2em; }
+.table-row .stats .panel.results {
+  border: 0px;
+  float: right;
+  text-align: center;
+  margin-right: 1em;
+  background: transparent;
+  -webkit-box-shadow: 0 0 0 black ;
+  -moz-box-shadow: 0 0 0 black ;
+  box-shadow: 0 0 0 black ; }
+  .table-row .stats .panel.results h1 {
+    text-align: center;
+    display: block; }
+    .table-row .stats .panel.results h1:first-child {
+      margin-bottom: .3em;
+      color: black; }
+    .table-row .stats .panel.results h1.large {
+      font-size: 2em; }
+    .table-row .stats .panel.results h1 span {
+      font-size: .5em;
+      display: block; }
+.table-row .stats .panel.unittest .centered, .table-row .stats .panel.functest .centered {
+  position: absolute;
+  height: 2em;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center; }
+  .table-row .stats .panel.unittest .centered h1, .table-row .stats .panel.functest .centered h1 {
+    font-size: 1.2em;
+    margin: .1em 0 0 0;
+    padding: 0; }
+    .table-row .stats .panel.unittest .centered h1.success, .table-row .stats .panel.functest .centered h1.success {
+      color: #243917; }
+    .table-row .stats .panel.unittest .centered h1.fail, .table-row .stats .panel.functest .centered h1.fail {
+      color: #975121; }
+  .table-row .stats .panel.unittest .centered span, .table-row .stats .panel.functest .centered span {
+    color: black;
+    display: block;
+    font-size: .6em;
+    line-height: .6em; }
+.table-row .stats .panel-col {
+  width: 50%;
+  display: block;
+  float: left;
+  text-align: center; }
+  .table-row .stats .panel-col.col60 {
+    width: 60%;
+    min-height: 6em; }
+  .table-row .stats .panel-col.col40 {
+    width: 40%; }
+  .table-row .stats .panel-col h2 {
+    padding: 0;
+    margin: .2em 0 .4em 0;
+    font-size: .9em;
+    font-weight: normal;
+    color: black; }
+  .table-row .stats .panel-col i.large {
+    font-size: 3em; }
+  .table-row .stats .panel-col.chart-total {
+    text-align: center;
+    margin-top: 2em; }
+    .table-row .stats .panel-col.chart-total h1 {
+      font-size: 2em;
+      margin: 0;
+      padding: 0; }
+    .table-row .stats .panel-col.chart-total.success h1 {
+      color: #84bd5f; }
+    .table-row .stats .panel-col.chart-total.fail h1 {
+      color: #d78147; }
+    .table-row .stats .panel-col.chart-total span {
+      display: block;
+      color: black;
+      font-size: .6em; }
+.table-row .stats .panel-row {
+  position: relative; }
+  .table-row .stats .panel-row:after {
+    content: "";
+    display: table;
+    clear: both; }
+
+.showEditor {
+  padding-right: 400px; }
+
+.table-row.ng-enter, .table-row.ng-move {
+  -webkit-transition: 0.5s linear all;
+  -moz-transition: 0.5s linear all;
+  -o-transition: 0.5s linear all;
+  transition: 0.5s linear all;
+  opacity: 0; }
+
+.table-row.ng-enter.ng-enter-active,
+.table-row.ng-move.ng-move-active {
+  opacity: 1; }
+
+.table-row.ng-leave {
+  -webkit-animation: 0.5s my_animation;
+  -moz-animation: 0.5s my_animation;
+  -o-animation: 0.5s my_animation;
+  animation: 0.5s my_animation; }
+
+@keyframes my_animation {
+  from {
+    opacity: 1; }
+
+  to {
+    opacity: 0; } }
+/*
+ Unfortunately each browser vendor requires
+ its own definition of keyframe animation code...
+*/
+@-webkit-keyframes my_animation {
+  from {
+    opacity: 1; }
+
+  to {
+    opacity: 0; } }
+@-moz-keyframes my_animation {
+  from {
+    opacity: 1; }
+
+  to {
+    opacity: 0; } }
+@-o-keyframes my_animation {
+  from {
+    opacity: 1; }
+
+  to {
+    opacity: 0; } }
+.build-progress {
+  height: 2em;
+  margin-bottom: 0px;
+  overflow: hidden;
+  background-color: #f9d6be;
+  border-radius: 0px;
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  position: relative; }
+
+.build-progress-bar {
+  float: left;
+  width: 0;
+  height: 100%;
+  font-size: 1em;
+  line-height: 2em;
+  text-align: center;
+  background-color: #a0cc83;
+  -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+  -webkit-transition: width .6s ease;
+  transition: width .6s ease; }
+
+.build-progress.active .build-progress-bar {
+  -webkit-animation: progress-bar-stripes 2s linear infinite;
+  animation: progress-bar-stripes 2s linear infinite; }
+
+.build-progress.pending {
+  background-color: #cccccc; }
+
+.build-progress.failure {
+  background-color: #c00000; }
+
+.arrow {
+  position: relative;
+  font-size: 1.5em;
+  display: inline-block;
+  width: 2em;
+  vertical-align: bottom;
+  margin: 0; }
+  .arrow:after {
+    content: "";
+    display: table;
+    clear: both; }
+  .arrow > .text {
+    width: 2em;
+    line-height: 2em;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: white; }
+    .arrow > .text span {
+      font-size: .8em;
+      vertical-align: top; }
+  .arrow.yellow > .text {
+    color: black; }
+  .arrow.down > .tri {
+    display: block;
+    width: 0px;
+    height: 0px;
+    border-left: 1em solid transparent;
+    border-right: 1em solid transparent;
+    border-top: 1em solid #538135; }
+  .arrow.red.down > .tri {
+    border-top-color: #c00000; }
+  .arrow.yellow.down > .tri {
+    border-top-color: #ffd965; }
+  .arrow.up > .tri {
+    display: block;
+    width: 0px;
+    height: 0px;
+    border-left: 1em solid transparent;
+    border-right: 1em solid transparent;
+    border-bottom: 1em solid #538135; }
+  .arrow.red.up > .tri {
+    border-bottom-color: #c00000; }
+  .arrow.yellow.up > .tri {
+    border-bottom-color: #ffd965; }
+  .arrow.left > .tri {
+    display: block;
+    float: left;
+    width: 0px;
+    height: 0px;
+    border-top: 1em solid transparent;
+    border-bottom: 1em solid transparent;
+    border-right: 1em solid #538135; }
+  .arrow.red.left > .tri {
+    border-right-color: #c00000; }
+  .arrow.yellow.left > .tri {
+    border-right-color: #ffd965; }
+  .arrow.right > .tri {
+    display: block;
+    float: left;
+    width: 0px;
+    height: 0px;
+    border-top: 1em solid transparent;
+    border-bottom: 1em solid transparent;
+    border-left: 1em solid #538135; }
+  .arrow.red.right > .tri {
+    border-left-color: #c00000; }
+  .arrow.yellow.right > .tri {
+    border-left-color: #ffd965; }
+  .arrow.down .bar, .arrow.up .bar {
+    display: block;
+    width: 1em;
+    height: 1.41em;
+    margin: 0 .5em;
+    background: #538135;
+    color: white;
+    text-align: center;
+    line-height: 1em; }
+    .arrow.down .bar span, .arrow.up .bar span {
+      font-size: .9em; }
+  .arrow.red.down > .bar, .arrow.red.up > .bar {
+    background: #c00000; }
+  .arrow.up > .bar {
+    line-height: 1em;
+    margin: -0.5em .5em 0; }
+  .arrow.down > .bar {
+    line-height: 2em;
+    margin: 0 .5em -0.5em; }
+  .arrow.left > .bar, .arrow.right > .bar {
+    display: block;
+    float: left;
+    width: 1.41em;
+    height: 1em;
+    margin: .5em 0;
+    background: #ffd965;
+    color: white;
+    text-align: center;
+    line-height: 1em; }
+    .arrow.left > .bar span, .arrow.right > .bar span {
+      font-size: .9em; }
+  .arrow.right > .bar {
+    line-height: 1em;
+    margin: .5em -0.5em .5em 0; }
+  .arrow.left > .bar {
+    line-height: 1em;
+    margin: .5em 0 .5em -0.5em; }
+
+/* Add Component SCSS Above */
+/* Personal preference for BS modal.  The SCSS below makes the backdrop white and
+   causes the modal to fade in rather than slide in. */

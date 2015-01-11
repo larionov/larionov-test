@@ -17,11 +17,7 @@ module.exports = {
   js: [
     '!app/vendor/**/*.js',
     '!app/test/unit-results/**/*.js',
-    '!app/assets/d3.js',
-    '!app/assets/d3.min.js',
-    '!app/assets/r2d3.js',
-    '!app/assets/r2d3.min.js',
-    '!app/assets/html5shiv.min.js',
+    '!app/assets/js/*.js',
     'app/**/*.js',   //unit
   ],
   index: 'app/index.html',

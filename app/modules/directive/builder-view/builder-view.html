@@ -9,8 +9,8 @@
 		<div class="cell unittest">Unit Test</div>
 		<div class="cell functest">Func Test</div>
 	</div>
-	<div class="table-row clearfix" ng-class="'state-' + item._itemStatus" ng-repeat="item in data track by item.id">
-		<div class="caption clearfix" ng-click="item._itemStatus == 'pending' || open(item.id)" ng-class="{open: status.openedId == item.id}">
+	<div class="table-row clearfix" ng-class="'state-' + itemStatus" ng-repeat="item in data track by item.id">
+		<div class="caption clearfix" ng-click="itemStatus == 'pending' || open(item.id)" ng-class="{open: status.openedId == item.id}">
 
 			<div class="cell name"><i class="icon-firewall icon"></i> <span>{{item.name}}</span></div>
 			<div class="cell owner">{{item.owner || "&nbsp;"}}</div>
@@ -29,7 +29,7 @@
 				<build-progressbar max="100" value="item.result.failure_step == 'functest' ? 0 : item.functest.total" ng-class="{failure: item.result && !item.result.success && item.result.failure_step == 'functest', pending: !item.functest}"></build-progressbar>
 			</div>
 		</div>
-		<div class="stats panel-collapse" collapse="status.openedId != item.id" ng-class="{inactive: item._itemStatus == 'pending'}">
+		<div class="stats panel-collapse" collapse="status.openedId != item.id" ng-class="{inactive: itemStatus == 'pending'}">
 			<div ng-init="id = item.id">
 				<div ng-switch="item.type+(item.result.success?'_true':'_false')"  ng-show="item.result">
 					<div class="panel results" ng-switch-when="firewall_true">
@@ -121,13 +121,13 @@
 							<div
 								ng-if="status.openedId == item.id"
 								data-ac-chart="'pie'"
-								data-ac-data="item._chartUnitData"
+								data-ac-data="chartUnitData"
 								data-ac-config="chartConfig"
 								class="chart"
 							> </div>
 						</div>
 						<div class='panel-col col40 chart-total' ng-class="{success: item.unittest.success, fail: !item.unittest.success}">
-							<h1>{{item._chartUnitPercent}}%</h1>
+							<h1>{{chartUnitPercent}}%</h1>
 							<span>tests passed</span>
 						</div>
 					</div>
@@ -142,13 +142,13 @@
 							<div
 								ng-if="status.openedId == item.id"
 								data-ac-chart="'pie'"
-								data-ac-data="item._chartFuncData"
+								data-ac-data="chartFuncData"
 								data-ac-config="chartConfig"
 								class="chart"
 							> </div>
 						</div>
 						<div class='panel-col col40 chart-total' ng-class="{success: item.functest.success, fail: !item.functest.success}">
-							<h1>{{item._chartFuncPercent}}%</h1>
+							<h1>{{chartFuncPercent}}%</h1>
 							<span>tests passed</span>
 						</div>
 					</div>
