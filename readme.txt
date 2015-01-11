@@ -6,7 +6,7 @@ First, you need to install node and npm:
   sudo apt-get install npm nodejs-legacy
 
 Then building prerequisites:
-  sudo npm install -g yo bower gulp sass gulp-sass
+  sudo npm install -g yo bower gulp sass
 
 Unpack larionov-test.zip or	git clone https://github.com/larionov/larionov-test.git
 
