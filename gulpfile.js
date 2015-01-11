@@ -6,6 +6,7 @@ var config = require('./build/build.config.js');
 var karmaConfig = require('./build/karma.config.js');
 var protractorConfig = require('./build/protractor.config.js');
 var gulp = require('gulp');
+var sass = require('gulp-sass');
 var $ = require('gulp-load-plugins')();
 var runSequence = require('run-sequence');
 var browserSync = require('browser-sync');
@@ -82,7 +83,7 @@ gulp.task('templates', function() {
 //generate css files from scss sources
 gulp.task('sass', function() {
   return gulp.src(config.mainScss)
-    .pipe($.rubySass())
+    .pipe(sass())
     .on('error', function(err) {
       console.log(err.message);
     })

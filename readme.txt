@@ -3,13 +3,12 @@
 
 First, you need to install node and npm:
 
-  sudo apt-get install npm nodejs-legacy gem
+  sudo apt-get install npm nodejs-legacy
 
 Then building prerequisites:
+  sudo npm install -g yo bower gulp sass gulp-sass
 
-  sudo gem install sass
-  sudo apt-get install ruby-sass
-  sudo npm install -g yo bower gulp sass
+Unpack larionov-test.zip or	git clone https://github.com/larionov/larionov-test.git
 
 Next go to the unpacked directory and run
   cd larionov-test
@@ -17,7 +16,7 @@ Next go to the unpacked directory and run
 
 In order to build and run development version you shuld run:
 
-  gulp build && gulp serve
+  gulp serve
 
 Release version:
   gulp build:dist && gulp serve:dist
