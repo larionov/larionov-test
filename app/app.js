@@ -20,7 +20,6 @@ angular.module('larionovTest').run(['$rootScope', '$state', '$stateParams', '$ht
         }
     };
 
-
     $httpBackend.whenGET(/^\/modules\//).passThrough();
     $httpBackend.whenGET(/^modules\//).passThrough();
     $httpBackend.whenGET(/^assets\//).passThrough();

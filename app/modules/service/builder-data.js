@@ -12,4 +12,6 @@ angular.module("larionovTest").factory("builderData", ['$httpBackend', '$resourc
 		return [200, data];
 	});
 
+	return data.$promise;
+
 }]);

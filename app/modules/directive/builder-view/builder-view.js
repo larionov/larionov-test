@@ -44,18 +44,20 @@ angular.module('larionovTest').directive('builderView', ['builderData',  '$modal
 				});
 			};
 
-			scope.onDataUpdated = function () {
-				$http.get('/tasks/list').success(function (data) {
-					scope.data = data;
-					scope.dataEditor = angular.toJson(scope.data, true);
-				});
-			};
+			builderData.then(function () {
+				scope.onDataUpdated = function () {
+					$http.get('/tasks/list').success(function (data) {
+						scope.data = data;
+						scope.dataEditor = angular.toJson(scope.data, true);
+					});
+				};
 
-			scope.updateData = function () {
-				$http.post('/tasks/list', angular.fromJson(scope.dataEditor));
+				scope.updateData = function () {
+					$http.post('/tasks/list', angular.fromJson(scope.dataEditor));
+					scope.onDataUpdated();
+				};
 				scope.onDataUpdated();
-			};
-			scope.onDataUpdated();
+			});
 
 			scope.chartConfig = {
 				colors: ['#ed7d31', '#538135'],
